@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$blue: rgb(0,122,255);
+@import '../colors.scss';
 
 .bus__iconSVG {
   width: 50px;
@@ -31,5 +31,6 @@ $blue: rgb(0,122,255);
   left: calc(50% - 17.5px);
   top: calc(50% - 27.5px);
   &.icon__blue { fill: $blue; }
+  &.icon__red { fill: $red; }
 }
 </style>

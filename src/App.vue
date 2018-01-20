@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div class="app__container" ref="container">
-      <bus-map :color="busColors[active]"/>
+      <bus-map v-for="(color, idx) in busColors" :key="idx"
+        v-if="active === idx" :color="busColors[active]"/>
       <bus-detail-card v-for="(color, idx) in busColors" :startDrag="startDrag"
         :key="color" :offsetX="getTransformOffset(idx)" :scrollY="scrollY" :active="active === idx"
         :orientation="orientation" :color="busColors[active]" :dragged="pos"
@@ -141,7 +142,7 @@ body {
 }
 .app__container {
   position: relative;
-  background: white;
+  background: rgb(214,214,214);
   width: 414px;
   height: 720px;
   max-height: 100%;

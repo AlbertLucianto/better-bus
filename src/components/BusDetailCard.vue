@@ -6,10 +6,10 @@
       <div class="bus__icon">
         <svg class="crowdLevel">
           <circle class="level__bar" cx="50" cy="50" r="45"/>
-          <circle class="level__value" cx="50" cy="50" r="45" :style="circleStyle"/>
+          <circle class="level__value" cx="50" cy="50" r="45" :style="circleStyle" :class="color"/>
         </svg>
         <div class="level__text">{{ displayLevel }}%</div>
-        <bus-icon color="blue"/>
+        <bus-icon :color="color"/>
       </div>
     </div>
   </transition>
@@ -53,6 +53,14 @@ export default {
       bottomCard: 1000,
     };
   },
+  watch: {
+    active(val) {
+      if (!val) {
+        this.crowdLevel = 0;
+        this.displayLevel = 0;
+      } else this.setCrowdLevel();
+    },
+  },
   computed: {
     circleStyle() {
       const length = (this.crowdLevel / 100) * MAX_DASH_ARRAY;
@@ -70,13 +78,18 @@ export default {
     },
     showCard() { return this.dragged.y + this.scrollY > TRESHOLD_SCROLL_Y; },
   },
-  mounted() {
-    setTimeout(() => {
+  methods: {
+    setCrowdLevel() {
       this.crowdLevel = mockedCrowdLevel;
       const itv = setInterval(() => {
         this.displayLevel += 1;
         if (this.displayLevel >= mockedCrowdLevel) clearInterval(itv);
       }, INTERVAL);
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      if (this.active) this.setCrowdLevel();
     }, MOUNTED_TIMEOUT_ANIMATE);
     this.$nextTick(() => {
       this.bottomCard = this.$refs.card.getBoundingClientRect().bottom;
@@ -130,6 +143,8 @@ export default {
         stroke: $blue;
         stroke-width: 5px;
         stroke-linecap: round;
+        &.blue { stroke: $blue; }
+        &.red { stroke: $red; }
       }
     }
     .level__text {

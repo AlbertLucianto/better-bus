@@ -23,13 +23,16 @@ const colors = {
 const TIMEOUT_MOUNTED = 100;
 
 export default {
+  props: {
+    color: String,
+  },
   data() {
     return {
       isMounted: false,
       path: busRoute,
       center: { lat: 1.343, lng: 103.683 },
       options: {
-        strokeColor: colors.$blue,
+        strokeColor: colors[`$${this.color}`],
       },
     };
   },
@@ -52,7 +55,7 @@ export default {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity 1s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
