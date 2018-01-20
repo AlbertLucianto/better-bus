@@ -5,7 +5,7 @@
         v-if="active === idx" :color="busColors[active]"/>
       <bus-detail-card v-for="(color, idx) in busColors" :startDrag="startDrag"
         :key="color" :offsetX="getTransformOffset(idx)" :scrollY="scrollY" :active="active === idx"
-        :orientation="orientation" :color="busColors[active]" :dragged="pos"
+        :orientation="orientation" :color="color" :dragged="pos"
         :dragging="dragging"/>
       <div class="bottomOverlay"></div>
     </div>

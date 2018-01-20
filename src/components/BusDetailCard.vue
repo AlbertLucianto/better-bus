@@ -3,7 +3,7 @@
   <transition name="fade">
     <div class="busDetail__card" :style="cardStyle" :class="{ dragging }"
       @mousedown="startDrag" @touchstart="startDrag" ref="card" v-if="showCard">
-      <div class="bus__icon">
+      <div class="bus__icon" :style="busIconStyle">
         <svg class="crowdLevel">
           <circle class="level__bar" cx="50" cy="50" r="45"/>
           <circle class="level__value" cx="50" cy="50" r="45" :style="circleStyle" :class="color"/>
@@ -28,6 +28,7 @@ import BusIcon from './BusIcon';
 const MAX_DASH_ARRAY = 280;
 const MOUNTED_TIMEOUT_ANIMATE = 200;
 const INTERVAL = 15;
+const DAMP_ICON_X = 10;
 
 export const TRESHOLD_SCROLL_Y = -150;
 
@@ -74,6 +75,11 @@ export default {
           translateX(${this.dragged.x + this.offsetX}px)
           translateY(${this.dragged.y + this.scrollY}px)
         `,
+      };
+    },
+    busIconStyle() {
+      return {
+        'margin-left': `${(this.dragged.x + this.offsetX) / DAMP_ICON_X}px`,
       };
     },
     showCard() { return this.dragged.y + this.scrollY > TRESHOLD_SCROLL_Y; },
