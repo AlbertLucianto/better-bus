@@ -27,7 +27,7 @@ const CHANGE_LINE_TRESHOLD = 100;
 const HORIZONTAL = 'horizontal';
 const VERTICAL = 'vertical';
 const ORIENTATION_TRESHOLD = 10;
-const MAGIC_NEXT_BUSES_HEIGHT = 120;
+const MAGIC_NEXT_BUSES_HEIGHT = 150;
 
 const mockedCurrentLocation = 'Nanyang Drive';
 
@@ -184,10 +184,10 @@ body {
 .currentLocation {
   position: absolute;
   top: 40px;
-  left: 50px;
-  width: calc(100% - 100px);
+  left: calc(15% - 10px);
+  width: calc(70% + 20px);
   height: 50px;
-  background: rgba(255,255,255,.95);
+  background: white;
   box-shadow: 0 10px 30px -5px rgba(0,0,0,.3);
   display: flex;
   justify-content: space-between;

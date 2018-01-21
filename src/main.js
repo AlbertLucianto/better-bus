@@ -10,6 +10,7 @@ Vue.use(VueGoogleMaps, {
     key: 'AIzaSyBzlLYISGjL_ovJwAehh6ydhB56fCCpPQw',
   },
 });
+Vue.component('map-marker', VueGoogleMaps.Marker);
 
 /* eslint-disable no-new */
 new Vue({
