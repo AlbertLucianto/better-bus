@@ -27,6 +27,7 @@ const CHANGE_LINE_TRESHOLD = 100;
 const HORIZONTAL = 'horizontal';
 const VERTICAL = 'vertical';
 const ORIENTATION_TRESHOLD = 10;
+const MAGIC_NEXT_BUSES_HEIGHT = 120;
 
 const mockedCurrentLocation = 'Nanyang Drive';
 
@@ -80,7 +81,7 @@ export default {
         }
         if (this.orientation === HORIZONTAL) this.pos.x = this.bufferMove.x;
         else if (this.orientation === VERTICAL
-        && (this.scrollY + this.pos.y > TRESHOLD_SCROLL_Y - 120
+        && (this.scrollY + this.pos.y > TRESHOLD_SCROLL_Y - MAGIC_NEXT_BUSES_HEIGHT
         || this.bufferMove.y - this.pos.y > 0)) {
           this.pos.y = this.bufferMove.y;
         }
@@ -99,7 +100,10 @@ export default {
           if (this.pos.y > TRESHOLD_SCROLL_Y && this.scrollY >= 0) {
             this.scrollY = 0;
           } else {
-            this.scrollY = Math.min(this.scrollY + this.pos.y, 0);
+            this.scrollY = Math.max(
+              Math.min(this.scrollY + this.pos.y, 0),
+              TRESHOLD_SCROLL_Y - MAGIC_NEXT_BUSES_HEIGHT,
+            );
           }
           this.pos.y = 0;
         }
@@ -136,6 +140,7 @@ export default {
 body {
   margin: 0;
   background-color: #FAFAFD;
+  user-select: none;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

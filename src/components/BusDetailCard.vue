@@ -199,6 +199,9 @@ export default {
       background: #232222;
     }
   }
+  &:not(.dragging) {
+    transition: transform .5s ease;
+  }
 }
 .arrow__icon {
   position: absolute;
