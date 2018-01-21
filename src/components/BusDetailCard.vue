@@ -2,7 +2,7 @@
 <div>
   <transition name="fade">
     <div class="busDetail__card" :style="cardStyle" :class="{ dragging }"
-      @mousedown="startDrag" @touchstart="startDrag" ref="card" v-if="showCard">
+      @mousedown="startDrag" @touchstart="startDrag" ref="card" v-if="showMainCard">
       <div class="bus__icon" :style="busIconStyle">
         <svg class="crowdLevel">
           <circle class="level__bar" cx="50" cy="50" r="45"/>
@@ -14,10 +14,12 @@
     </div>
   </transition>
   <div class="list__nextBus" :style="cardStyle" v-if="active"
-    :class="{ fade: showCard, dragging }"
+    :class="{ fade: showMainCard, dragging }"
     @mousedown="startDrag" @touchstart="startDrag">
     <div v-for="(_, idx) in new Array(3).fill(0)" :key="idx"
-      class="nextBus__item" :class="{ last: idx === 2 }"></div>
+      :style="getNextBusStyle(idx)" class="nextBus__item">
+      <div class="bus__icon"></div>
+    </div>
   </div>
 </div>
 </template>
@@ -51,7 +53,6 @@ export default {
     return {
       crowdLevel: 0,
       displayLevel: 0,
-      bottomCard: 1000,
     };
   },
   watch: {
@@ -82,7 +83,14 @@ export default {
         'margin-left': `${(this.dragged.x + this.offsetX) / DAMP_ICON_X}px`,
       };
     },
-    showCard() { return this.dragged.y + this.scrollY > TRESHOLD_SCROLL_Y; },
+    showMainCard() { return this.dragged.y + this.scrollY > TRESHOLD_SCROLL_Y; },
+    getNextBusStyle() {
+      return idx => ({
+        transform: `translateY(${this.showMainCard ? idx * 100 : 0}px)`,
+        'transition-delay': `${idx * 50}ms`,
+        opacity: this.showMainCard ? 1 / (idx + 2) : 1,
+      });
+    },
   },
   methods: {
     setCrowdLevel() {
@@ -97,9 +105,6 @@ export default {
     setTimeout(() => {
       if (this.active) this.setCrowdLevel();
     }, MOUNTED_TIMEOUT_ANIMATE);
-    this.$nextTick(() => {
-      this.bottomCard = this.$refs.card.getBoundingClientRect().bottom;
-    });
   },
 };
 </script>
@@ -148,7 +153,6 @@ export default {
         fill: rgba(0,0,0,0);
         stroke: $blue;
         stroke-width: 5px;
-        stroke-linecap: round;
         &.blue { stroke: $blue; }
         &.red { stroke: $red; }
       }
@@ -166,26 +170,24 @@ export default {
   position: absolute;
   width: calc(100% - 30px);
   max-height: 40%;
-  background: white;
   left: 15px;
   top: calc(100% - 20px);
   z-index: 100;
-  border-radius: 5px;
-  box-shadow: 0 5px 30px -5px rgba(0,0,0,.3);
-  transition: opacity .5s ease;
   cursor: grab;
   .nextBus__item {
     height: 80px;
-    border-bottom: 1px solid rgba(0,0,0,.075);
-    &.last {
-      border-bottom: none;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    box-shadow: 0 5px 30px -5px rgba(0,0,0,.2);
+    background: white;
+    transition: transform .3s ease, opacity .35s ease;
+    .bus__icon {
+      box-sizing: border-box;
+      width: 100px;
+      height: 100%;
+      box-shadow: 0 5px 30px -5px rgba(0,0,0,.3);
+      background: #232222;
     }
-  }
-  &.fade {
-    opacity: .5;
-  }
-  &:not(.dragging) {
-    transition: opacity .5 ease, transform .5s ease .5s;
   }
 }
 

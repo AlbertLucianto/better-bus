@@ -7,6 +7,11 @@
         :key="color" :offsetX="getTransformOffset(idx)" :scrollY="scrollY" :active="active === idx"
         :orientation="orientation" :color="color" :dragged="pos"
         :dragging="dragging"/>
+      <div class="topOverlay"></div>
+      <div class="currentLocation">
+        <img src="./assets/SVG/pin_map.svg" class="location__pinIcon"/>
+        <div class="location__text">{{ currentLocation }}</div>
+      </div>
       <div class="bottomOverlay"></div>
     </div>
   </div>
@@ -23,6 +28,8 @@ const HORIZONTAL = 'horizontal';
 const VERTICAL = 'vertical';
 const ORIENTATION_TRESHOLD = 10;
 
+const mockedCurrentLocation = 'Nanyang Drive';
+
 export default {
   components: {
     BusMap,
@@ -32,6 +39,7 @@ export default {
   data() {
     return {
       active: 0,
+      currentLocation: mockedCurrentLocation,
       busColors: ['blue', 'red'],
       dragging: '',
       start: { x: 0, y: 0 },
@@ -72,7 +80,7 @@ export default {
         }
         if (this.orientation === HORIZONTAL) this.pos.x = this.bufferMove.x;
         else if (this.orientation === VERTICAL
-        && (this.scrollY + this.pos.y > TRESHOLD_SCROLL_Y - 100
+        && (this.scrollY + this.pos.y > TRESHOLD_SCROLL_Y - 120
         || this.bufferMove.y - this.pos.y > 0)) {
           this.pos.y = this.bufferMove.y;
         }
@@ -117,6 +125,7 @@ export default {
       const container = this.$refs.container;
       this.screenWidth = container.getBoundingClientRect().width;
     });
+    window.addEventListener('wheel', e => e.preventDefault());
   },
 };
 </script>
@@ -157,6 +166,34 @@ body {
   left: 0;
   width: 100%;
   height: 300px;
-  background: linear-gradient(5deg, rgb(240,240,240) 40%, rgba(240,240,240,0) 90%);
+  background: linear-gradient(5deg, rgb(220,220,220) 40%, rgba(220,220,220,0) 90%);
+}
+.topOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, rgb(200,200,200) -10%, rgba(200,200,200,0));
+}
+.currentLocation {
+  position: absolute;
+  top: 40px;
+  left: 50px;
+  width: calc(100% - 100px);
+  height: 50px;
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 10px 30px -5px rgba(0,0,0,.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .location__pinIcon {
+    width: 12px;
+    margin-left: 20px;
+  }
+  .location__text {
+    flex-grow: 1;
+    text-align: center;
+  }
 }
 </style>

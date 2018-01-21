@@ -1,7 +1,7 @@
 <template>
 <div class="googleMap__container">
   <transition name="fade">
-    <gmap-map :center="center" :zoom="15" class="google__map" v-if="isMounted">
+    <gmap-map :center="center" :zoom="zoom" class="google__map" v-if="isMounted">
       <gmap-polyline :path="path" :options="options">
       </gmap-polyline>
     </gmap-map>
@@ -30,7 +30,8 @@ export default {
     return {
       isMounted: false,
       path: busRoute,
-      center: { lat: 1.343, lng: 103.683 },
+      center: { lat: 1.346, lng: 103.683 },
+      zoom: 15,
       options: {
         strokeColor: colors[`$${this.color}`],
       },
@@ -50,7 +51,8 @@ export default {
   height: 100%;
   .google__map {
     width: 100%;
-    height: 100%;
+    height: calc(100% + 40px);
+    margin-top: -40px;
   }
 }
 
