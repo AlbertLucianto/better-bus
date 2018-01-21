@@ -112,12 +112,12 @@ export default {
       crowdLevel: 0,
       displayLevel: 0,
       arrivalTime: mockedArrivalTIme,
-      lastStop: locations.INNOVATION_CENTRE,
+      lastStop: '-',
       recommendation: 'Take the second bus',
       recommended: 1,
       buses: [
-        { time: mockedArrivalTIme, level: mockedCrowdLevel, lastStop: locations.INNOVATION_CENTRE },
-        { time: 5, level: 20, lastStop: locations.INNOVATION_CENTRE },
+        { time: mockedArrivalTIme, level: mockedCrowdLevel, lastStop: '-' },
+        { time: 5, level: 20, lastStop: '-' },
         { time: 15, level: 45, lastStop: locations.INNOVATION_CENTRE },
       ],
     };
