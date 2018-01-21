@@ -27,7 +27,7 @@ const BUS_UPDATE_INTERVAL = 50;
 const NEXT_POS_DISTANCE_TRESHOLD = 0.00005;
 const NEXT_POS_FRACTION = 0.04;
 
-const mockBusStart = 10;
+const mockBusStarts = [10, 50, 100];
 
 const calcDistance = (start, end) => Math.sqrt(
   ((start.lng - end.lng) ** 2)
@@ -53,34 +53,35 @@ export default {
       options: {
         strokeColor: colors[`$${this.color}`],
       },
-      busPos: mockBusStart,
-      markers: [{ position: busRoutes[mockBusStart] }],
+      markers: mockBusStarts.map(idx => ({ position: busRoutes[mockBusStarts[idx]] })),
     };
   },
   methods: {
-    setBusPos(position) {
-      this.markers[0].position = position;
+    setBusPos(whichBus, position) {
+      this.markers[whichBus].position = position;
     },
   },
   mounted() {
     const direction = this.color === 'red' ? 1 : -1;
-    setTimeout(() => { this.isMounted = true; }, TIMEOUT_MOUNTED);
-    let busPosIdx = mockBusStart;
-    let start = busRoutes[mod(busPosIdx, busRoutes.length)];
-    let end = busRoutes[mod(busPosIdx + direction, busRoutes.length)];
-    setInterval(() => {
-      let position;
-      if (calcDistance(start, end) > NEXT_POS_DISTANCE_TRESHOLD) {
-        start = getPosBetween(start, end, NEXT_POS_FRACTION);
-        position = start;
-      } else {
-        busPosIdx += direction;
-        position = busRoutes[mod(busPosIdx, busRoutes.length)];
-        start = position;
-        end = busRoutes[mod(busPosIdx + direction, busRoutes.length)];
-      }
-      this.setBusPos(position);
-    }, BUS_UPDATE_INTERVAL);
+    mockBusStarts.forEach((idx, whichBus) => {
+      setTimeout(() => { this.isMounted = true; }, TIMEOUT_MOUNTED);
+      let busPosIdx = idx;
+      let start = busRoutes[mod(busPosIdx, busRoutes.length)];
+      let end = busRoutes[mod(busPosIdx + direction, busRoutes.length)];
+      setInterval(() => {
+        let position;
+        if (calcDistance(start, end) > NEXT_POS_DISTANCE_TRESHOLD) {
+          start = getPosBetween(start, end, NEXT_POS_FRACTION);
+          position = start;
+        } else {
+          busPosIdx += direction;
+          position = busRoutes[mod(busPosIdx, busRoutes.length)];
+          start = position;
+          end = busRoutes[mod(busPosIdx + direction, busRoutes.length)];
+        }
+        this.setBusPos(whichBus, position);
+      }, BUS_UPDATE_INTERVAL);
+    });
   },
 };
 </script>
