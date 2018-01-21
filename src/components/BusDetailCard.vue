@@ -13,6 +13,7 @@
       </div>
     </div>
   </transition>
+  <arrow-icon class="arrow__icon" :style="arrowStyle"/>
   <div class="list__nextBus" :style="cardStyle" v-if="active"
     :class="{ fade: showMainCard, dragging }"
     @mousedown="startDrag" @touchstart="startDrag">
@@ -26,6 +27,7 @@
 
 <script>
 import BusIcon from './BusIcon';
+import ArrowIcon from './ArrowIcon';
 
 const MAX_DASH_ARRAY = 280;
 const MOUNTED_TIMEOUT_ANIMATE = 200;
@@ -48,6 +50,7 @@ export default {
   },
   components: {
     BusIcon,
+    ArrowIcon,
   },
   data() {
     return {
@@ -76,6 +79,13 @@ export default {
           translateX(${this.dragged.x + this.offsetX}px)
           translateY(${this.dragged.y + this.scrollY}px)
         `,
+      };
+    },
+    arrowStyle() {
+      const scrolled = this.dragged.y + this.scrollY;
+      return {
+        ...this.cardStyle,
+        opacity: 1 - (scrolled / TRESHOLD_SCROLL_Y),
       };
     },
     busIconStyle() {
@@ -171,7 +181,7 @@ export default {
   width: calc(100% - 30px);
   max-height: 40%;
   left: 15px;
-  top: calc(100% - 20px);
+  top: calc(100% - 12.5px);
   z-index: 100;
   cursor: grab;
   .nextBus__item {
@@ -189,6 +199,12 @@ export default {
       background: #232222;
     }
   }
+}
+.arrow__icon {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  z-index: 9;
 }
 
 .fade-enter-active, .fade-leave-active {

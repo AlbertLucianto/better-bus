@@ -50,16 +50,18 @@ export default {
   width: 100%;
   height: 100%;
   .google__map {
-    width: 100%;
+    width: calc(100% + 20px);
     height: calc(100% + 40px);
     margin-top: -40px;
+    margin-left: -10px;
   }
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
+  transition: all 1s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+  transform: scale(.95);
 }
 </style>
