@@ -1,21 +1,17 @@
-# better-bus
+# Better Bus
 
 > SingTel Hackaton 2018
+
+SingTel Techfest Hackathon 2018 - Building a crowd level detection using Darknet Convolutional Neural Network and recommendation system in shuttle bus. Client side is delivered using WebView, build using Vue.js
+
+## [Live Demo](https://albertlucianto.github.io/better-bus)
 
 ## Build Setup
 
 ``` bash
-# install dependencies
-npm install
-
 # serve with hot reload at localhost:8080
 npm run dev
 
 # build for production with minification
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
